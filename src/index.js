@@ -6,6 +6,7 @@ const middleware = require('./middleware')
 const server = require('./server')
 const models = require('./models')
 const controller = require('./controller')
+const ethers = require('./ethers')
 const { connect } = require('./database')
 const repo = require('./repo')
 const EventEmitter = require('events').EventEmitter
@@ -17,6 +18,11 @@ mediator.once('di.ready', container => {
   container.registerValue('middleware', middleware)
   container.registerValue('logger', logger)
   container.registerValue('mediator', mediator)
+
+  // register ether for infuraID
+  container.registerValue('ethers', ethers(container))
+  logger.d('ethers provider connected!')
+
   mediator.once('db.ready', db => {
     logger.d('db.ready, starting server')
     container.registerValue('db', db)

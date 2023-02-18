@@ -1,7 +1,7 @@
 module.exports = (app, container) => {
   const { verifyCMSToken } = container.resolve('middleware')
-  require('./cdcApi')(app, container)
-  require('./sdpApi')(app, container)
-  app.use(verifyCMSToken)
-  require('./campaignApi')(app, container)
+  require('./etherApi')(app, container)
+  require('./notificationApi')(app, container)
+  // app.use(verifyCMSToken)
+  require('./identificationApi')(app, container)
 }

@@ -14,13 +14,19 @@ const httpCode = {
   UNAUTHORIZED: 401
 }
 const dbSettings = {
-  db: process.env.DB || 'bidv',
-  user: process.env.DB_USER || '',
-  pass: process.env.DB_PASS || '',
+  db: process.env.DB || 'id-proxy',
+  user: process.env.DB_USER || 'tee',
+  pass: process.env.DB_PASS || 'teeidadmin',
   repl: process.env.DB_REPLS || '',
   servers: (process.env.DB_SERVERS) ? process.env.DB_SERVERS.split(',') : [
-    'localhost:27017'
+    '222.255.238.183:8016'
   ]
+}
+
+const blockchainConfig = {
+  infuraID: process.env.INFURA_ID || '310c4684f9a44cb382ba0a0fd7c14f10',
+  notiContractAddr: process.env.NOTI_CONTRACT_ADDR || '',
+  clientManagementContractAddr: process.env.CLIENT_MANAGEMENT_CONTRACT_ADDR || ''
 }
 const serverHelper = function () {
   const jwt = require('jsonwebtoken')
@@ -200,4 +206,4 @@ const serverHelper = function () {
 
   return { decodeToken, encryptPassword, verifyToken, genToken, deepCompare, stringToSlugSearch, stringToSlug }
 }
-module.exports = { dbSettings, serverHelper: serverHelper(), serverSettings, httpCode }
+module.exports = { dbSettings, serverHelper: serverHelper(), serverSettings, httpCode, blockchainConfig }

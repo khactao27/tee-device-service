@@ -1,6 +1,6 @@
 module.exports = (container) => {
-  const campaignController = require('./campaignController')(container)
-  const cdcController = require('./cdcController')(container)
-  const sdpController = require('./sdpController')(container)
-  return { campaignController, sdpController, cdcController }
+  const notificationController = require('./notificationController')(container)
+  const etherController = require('./etherController')(container)
+  const identificationController = require('./identificationController')(container)
+  return { notificationController, identificationController, etherController }
 }
