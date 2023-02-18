@@ -19,6 +19,9 @@ module.exports = (container) => {
             let {
                 address
             } = req.query
+            if (!ethers.utils.isAddress(address)) {
+                return res.status(httpCode.BAD_REQUEST).json({ ok: false, msg: 'Address form invalid!' })
+            }
             let balance = await provider.getBalance(address)
             return res.status(httpCode.SUCCESS).json({
                 balances: ethers.utils.formatEther(balance)
