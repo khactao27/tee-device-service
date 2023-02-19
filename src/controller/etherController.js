@@ -12,7 +12,7 @@ module.exports = (container) => {
     } = container.resolve('models')
     const { httpCode, serverHelper } = container.resolve('config')
 
-    const { provider } = container.resolve('ethers');
+    const { provider } = container.resolve('ethers')
 
     const getBalance = async (req, res) => {
         try {
@@ -28,7 +28,7 @@ module.exports = (container) => {
             })
         } catch (e) {
             logger.e(e)
-            res.status(httpCode.UNKNOWN_ERR).json({ ok: false, msg: 'Something went wrong!'})
+            res.status(httpCode.UNKNOWN_ERROR).json({ ok: false, msg: 'Something went wrong!'})
         }
     }
 
