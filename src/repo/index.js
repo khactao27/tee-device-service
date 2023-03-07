@@ -1,6 +1,17 @@
 const repo = (container) => {
-  const campaignRepo = require('./campaignRepo')(container)
-  return { campaignRepo }
+  const applicationRepo = require('./applicationRepo')(container)
+  const identificationRepo = require('./identificationRepo')(container)
+  const notificationRepo = require('./notificationRepo')(container)
+  const otpRepo = require('./otpRepo')(container)
+  const walletRepo = require('./walletRepo')(container)
+
+  return {
+    applicationRepo,
+    identificationRepo,
+    notificationRepo,
+    walletRepo,
+    otpRepo
+  }
 }
 const connect = (container) => {
   const dbPool = container.resolve('db')

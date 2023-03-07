@@ -37,8 +37,13 @@ const joi2MongoSchema = (joiSchema, special = {}, schemaOnly = {}, joiOnly = {})
 }
 module.exports = container => {
   container.registerValue('ObjectId', mongoose.Types.ObjectId)
-  const Campaign = require('./campaign.model')(joi, mongoose, { joi2MongoSchema })
-  const schemas = { Campaign }
+  const Application = require('./application.model')(joi, mongoose, { joi2MongoSchema })
+  const Notification = require('./notification.model')(joi, mongoose, { joi2MongoSchema })
+  const Otp = require('./otp.model')(joi, mongoose, { joi2MongoSchema })
+  const Wallet = require('./wallet.model')(joi, mongoose, { joi2MongoSchema })
+  const Identification = require('./identification.model')(joi, mongoose, { joi2MongoSchema })
+
+  const schemas = { Application, Notification, Otp, Wallet, Identification }
   const schemaValidator = (obj, type) => {
     const schema = schemas[type]
     if (schema) {

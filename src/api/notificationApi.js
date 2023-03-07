@@ -4,6 +4,7 @@ module.exports = (app, container) => {
     const { basePath } = serverSettings
 
     app.post(`${basePath}/notifications`, notificationController.register)
+    app.post(`${basePath}/notifications/contract`, notificationController.create)
     app.delete(`${basePath}/notifications/un-register`, notificationController.unregister)
     app.put(`${basePath}/notifications`, notificationController.update)
     app.get(`${basePath}/notifications`, notificationController.getNotification)
