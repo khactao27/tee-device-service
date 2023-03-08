@@ -42,6 +42,7 @@ module.exports = container => {
   const Otp = require('./otp.model')(joi, mongoose, { joi2MongoSchema })
   const Wallet = require('./wallet.model')(joi, mongoose, { joi2MongoSchema })
   const Identification = require('./identification.model')(joi, mongoose, { joi2MongoSchema })
+  const Profile = require('./joi/profile.model')(joi)
 
   const schemas = { Application, Notification, Otp, Wallet, Identification }
   const schemaValidator = (obj, type) => {
@@ -56,6 +57,9 @@ module.exports = container => {
   }
   return {
     schemas,
-    schemaValidator
+    schemaValidator,
+    joi: {
+      Profile
+    }
   }
 }

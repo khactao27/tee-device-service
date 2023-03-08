@@ -8,12 +8,16 @@ module.exports = (container) => {
         schemaValidator,
         schemas: {
             Identification
+        },
+        joi: {
+            Profile
         }
     } = container.resolve('models')
-    const { httpCode, serverHelper } = container.resolve('config')
+    const { httpCode, serverHelper, contractConfig } = container.resolve('config')
     const { provider } = container.resolve('ethers');
 
     const IDENTIFICATION_ABI = [
+        'constructor(address)',
         'function updateDefaultClaim(string,string,string,uint,string,string,string,string) external',
         'function getDefaultClaim() public view returns(string,string,string,uint,string,string,string,string)',
         'function getClaim(string)',
@@ -23,6 +27,40 @@ module.exports = (container) => {
 
     const register = async (req, res) => {
         try {
+            const bytecode = contractConfig.idContract.bytecode
+            const body = req.body
+            const { privatekey } = req.headers
+            const {
+                error,
+                value
+            } = await Profile.validate(body, {
+                allowUnknown: true
+            })
+            if (error) {
+                logger.e(error)
+                return res.status(httpCode.BAD_REQUEST).json({ msg: error.message })
+            }
+
+            const wallet = new ethers.Wallet(privatekey, provider)
+            const factory = new ethers.ContractFactory(IDENTIFICATION_ABI, bytecode, wallet);
+            const idContract = await factory.deploy(wallet.address);
+
+            const idModel = {
+                owner: wallet.address,
+                contract: idContract.address,
+                claims: Object.keys(value.claims)
+            }
+
+            const {
+                error: err,
+                value: val
+            } = await schemaValidator(idModel, 'Identification')
+
+            if (err) {
+               return res.status(httpCode.BAD_REQUEST).json({ oke: false, msg: err.message })
+            }
+            await identificationRepo.addIdentification(val);
+
             return res.status(httpCode.CREATED).json({ oke: true })
         } catch (e) {
             logger.e(e)
@@ -81,6 +119,7 @@ module.exports = (container) => {
 
     const updateProfile = async (req, res) => {
         try {
+            const body = req.body
 
         } catch (e) {
             logger.e(e)
