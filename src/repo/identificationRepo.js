@@ -1,12 +1,16 @@
 module.exports = container => {
     const { schemas } = container.resolve('models')
     const { Identification } = schemas
+
     const addIdentification = (data) => {
         const n = new Identification(data)
         return n.save()
     }
     const getIdentificationById = (id) => {
         return Identification.findById(id)
+    }
+    const findOne = (pipe) => {
+        return Identification.findOne(pipe)
     }
     const deleteIdentification = (id) => {
         return Identification.findByIdAndRemove(id, { useFindAndModify: false })
@@ -45,6 +49,7 @@ module.exports = container => {
         updateIdentification,
         checkIdExist,
         getCount,
-        getIdentification
+        getIdentification,
+        findOne
     }
 }
